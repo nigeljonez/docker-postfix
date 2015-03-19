@@ -82,7 +82,6 @@ EOF
 
   cat >> /etc/postfix/main.cf <<EOF
 transport_maps = regexp:/etc/postfix/transports
-regexp:/etc/postfix/recipients
 EOF
   cat >> /etc/postfix/master.cf <<EOF
 alaveteli unix  - n n - 50 pipe
