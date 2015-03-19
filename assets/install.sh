@@ -68,6 +68,34 @@ if [[ -n "$(find /etc/postfix/certs -iname *.crt)" && -n "$(find /etc/postfix/ce
   postconf -P "submission/inet/smtpd_recipient_restrictions=permit_sasl_authenticated,reject_unauth_destination"
 fi
 
+################
+# Pipe to script
+################
+
+if [ -n "$pipescript" ]; then
+  cp $pipescript /opt
+
+  ### If you want filter by mail prefix
+  #
+  #cat > /etc/postfix/transports <<EOF
+  #  /^foi.*/                $smtp_user
+#EOF
+
+  cat >> /etc/postfix/master.cf <<EOF
+alaveteli unix  - n n - 50 pipe
+  flags=R user=$smtp_user argv=/opt/$pipescript
+
+smtp      inet  n       -       -       -       -       smtpd
+        -o content_filter=alaveteli:dummy
+EOF
+fi
+
+if [ -n "$ignoreregex" ]; then
+  cat > /etc/postfix/recipients <<EOF
+  /$ignoreregex/                this-is-ignored
+EOF
+fi
+
 #############
 #  opendkim
 #############

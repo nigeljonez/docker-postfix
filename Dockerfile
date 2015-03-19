@@ -12,6 +12,7 @@ RUN apt-get update
 RUN apt-get -y install supervisor postfix sasl2-bin opendkim opendkim-tools
 
 # Add files
+ADD assets/scripts/* /opt/
 ADD assets/install.sh /opt/install.sh
 
 # Run
