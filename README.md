@@ -4,6 +4,12 @@ docker-postfix
 run postfix with smtp authentication (sasldb) in a docker container.
 TLS and OpenDKIM support are optional.
 
+Has been customised with values for
+[Alaveteli](http://alaveteli.org/docs/installing/email/), particularly
+the FYI.org.nz instance
+
+
+
 ## Requirement
 + Docker 1.0
 

@@ -76,11 +76,14 @@ if [ -n "$pipescript" ]; then
   cp $pipescript /opt
 
   ### If you want filter by mail prefix
-  #
-  #cat > /etc/postfix/transports <<EOF
-  #  /^foi.*/                $smtp_user
-#EOF
+  cat > /etc/postfix/transports <<EOF
+/^fyi.*/                $smtp_user
+EOF
 
+  cat >> /etc/postfix/main.cf <<EOF
+transport_maps = regexp:/etc/postfix/transports
+regexp:/etc/postfix/recipients
+EOF
   cat >> /etc/postfix/master.cf <<EOF
 alaveteli unix  - n n - 50 pipe
   flags=R user=$smtp_user argv=/opt/$pipescript
@@ -88,11 +91,9 @@ alaveteli unix  - n n - 50 pipe
 smtp      inet  n       -       -       -       -       smtpd
         -o content_filter=alaveteli:dummy
 EOF
-fi
 
-if [ -n "$ignoreregex" ]; then
   cat > /etc/postfix/recipients <<EOF
-  /$ignoreregex/                this-is-ignored
+/^fyi.*/                this-is-ignored
 EOF
 fi
 
