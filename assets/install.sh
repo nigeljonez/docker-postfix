@@ -65,6 +65,7 @@ EOF
   cat >> /etc/postfix/main.cf <<EOF
 transport_maps = regexp:/etc/postfix/transports
 local_recipient_maps = proxy:unix:passwd.byname regexp:/etc/postfix/recipients
+export_environment = AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY S3_BUCKET TZ MAIL_CONFIG LANG
 EOF
 
   cat > /etc/postfix/recipients <<EOF
