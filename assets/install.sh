@@ -29,9 +29,9 @@ chmod +x /opt/postfix.sh
 postconf -e myhostname=$maildomain
 postconf -F '*/*/chroot = n'
 
-###############
-#
-################
+#####################
+# set up destinations
+#####################
 
 sed -i "s/localhost.localdomain, , localhost/$maildomain, localhost.localdomain, localhost/" /etc/postfix/main.cf
 
