@@ -20,6 +20,9 @@ EOF
 ############
 #  postfix
 ############
+
+echo "message_size_limit = 102400000" >> /etc/postfix/main.cf
+
 cat >> /opt/postfix.sh <<EOF
 #!/bin/bash
 service postfix start

@@ -8,7 +8,7 @@ OUTPUT=$(mktemp -t foi-mailin-output-XXXXXXXX)
 # Read the email message from stdin, and write it to the file $INPUT
 cat >"$INPUT"
 
-/opt/s3putter <"$INPUT" >"$OUTPUT" 2>&1
+/bin/env /opt/s3putter <"$INPUT" >"$OUTPUT" 2>&1
 
 ERROR_CODE=$?
 if [ ! "$ERROR_CODE" = "0" ]
@@ -16,7 +16,7 @@ then
   # report exceptions somehow?
   rm -f "$INPUT" "$OUTPUT"
   # tell Postfix error was temporary, so try again later (no point bouncing message to authority)
-  exit 75 
+  exit 75
 fi
 
 cat "$OUTPUT"
