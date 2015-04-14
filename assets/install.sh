@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#judgement
+# sanity check
 if [[ -a /etc/supervisor/conf.d/supervisord.conf ]]; then
   exit 0
 fi
