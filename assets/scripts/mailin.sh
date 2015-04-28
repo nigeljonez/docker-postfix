@@ -8,7 +8,7 @@ OUTPUT=$(mktemp -t foi-mailin-output-XXXXXXXX)
 # Read the email message from stdin, and write it to the file $INPUT
 cat >"$INPUT"
 
-/bin/env /opt/s3putter <"$INPUT" >"$OUTPUT" 2>&1
+/usr/bin/env /opt/s3putter <"$INPUT" >"$OUTPUT" 2>&1
 
 ERROR_CODE=$?
 if [ ! "$ERROR_CODE" = "0" ]
