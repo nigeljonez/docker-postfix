@@ -53,7 +53,41 @@ fi
 ################
 
 if [ -n "$pipescript" ]; then
-  cp $pipescript /opt
+
+  if [ -a $pipescript ]; then
+
+    cp $pipescript /opt
+
+  else
+
+    cat > /opt/$pipescript <<EOF
+#!/usr/bin/env bash
+
+# Wire this script to receive incoming email for request responses.
+
+INPUT=$(mktemp -t foi-mailin-mail-XXXXXXXX)
+OUTPUT=$(mktemp -t foi-mailin-output-XXXXXXXX)
+
+# Read the email message from stdin, and write it to the file $INPUT
+cat >"$INPUT"
+
+AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID S3_BUCKET=$S3_BUCKET /opt/s3putter <"$INPUT" >"$OUTPUT" 2>&1
+
+ERROR_CODE=$?
+if [ ! "$ERROR_CODE" = "0" ]
+then
+  # report exceptions somehow?
+  rm -f "$INPUT" "$OUTPUT"
+  # tell Postfix error was temporary, so try again later (no point bouncing message to authority)
+  exit 75
+fi
+
+cat "$OUTPUT"
+rm -f "$INPUT" "$OUTPUT"
+exit 0
+EOF
+
+  fi
 
   ### If you want filter by mail prefix
   cat > /etc/postfix/transports <<EOF
