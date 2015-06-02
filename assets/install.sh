@@ -60,7 +60,7 @@ if [ -n "$pipescript" ]; then
 
   else
 
-    cat > /opt/$pipescript <<EOF
+    cat > /opt/$pipescript <<'EOF'
 #!/usr/bin/env bash
 
 # Wire this script to receive incoming email for request responses.
@@ -87,6 +87,7 @@ rm -f "$INPUT" "$OUTPUT"
 exit 0
 EOF
 
+  chmod +x /opt/$pipescript
   fi
 
   ### If you want filter by mail prefix
