@@ -70,9 +70,11 @@ OUTPUT=$(mktemp -t foi-mailin-output-XXXXXXXX)
 
 # Read the email message from stdin, and write it to the file $INPUT
 cat >"$INPUT"
+EOF
 
-AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID S3_BUCKET=$S3_BUCKET /opt/s3putter <"$INPUT" >"$OUTPUT" 2>&1
+    echo "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID S3_BUCKET=$S3_BUCKET /opt/s3putter <\"\$INPUT\" >\"\$OUTPUT\" 2>&1"  >> /opt/$pipescript
 
+    cat >> /opt/$pipescript <<'EOF'
 ERROR_CODE=$?
 if [ ! "$ERROR_CODE" = "0" ]
 then
