@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -t nzherald/postfix .
+docker build -t alaveteli-postfix .
