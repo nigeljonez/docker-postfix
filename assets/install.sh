@@ -21,6 +21,9 @@ EOF
 #  postfix
 ############
 
+chown syslog:adm /var/log/mail.err
+chown syslog:adm /var/log/mail.log
+
 echo "message_size_limit = 102400000" >> /etc/postfix/main.cf
 
 cat >> /opt/postfix.sh <<EOF
