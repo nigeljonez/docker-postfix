@@ -9,7 +9,7 @@ RUN apt-get update
 
 # Start editing
 # Install package here for cache
-RUN apt-get -y install supervisor postfix ca-certificates
+RUN apt-get -y install supervisor postfix postfix-pcre ca-certificates
 
 # Add files
 ADD assets/scripts/* /opt/

@@ -97,7 +97,8 @@ EOF
 
   ### If you want filter by mail prefix
   cat > /etc/postfix/transports <<EOF
-/^fyi.*/                $alaveteli_user
+/^fyi-request-\d+-[a-f\d]+@/           $alaveteli_user
+/^fyi.*/        error:5.1.1 This is not a valid request address, please check the address and send again.
 EOF
 
   cat >> /etc/postfix/master.cf <<EOF
@@ -106,8 +107,9 @@ $alaveteli_user unix  - n n - 50 pipe
 EOF
 
   cat >> /etc/postfix/main.cf <<EOF
-transport_maps = regexp:/etc/postfix/transports
+transport_maps = pcre:/etc/postfix/transports
 local_recipient_maps = proxy:unix:passwd.byname regexp:/etc/postfix/recipients
+smtpd_recipient_restrictions = reject_rbl_client pbl.spamhaus.org
 export_environment = AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY S3_BUCKET TZ MAIL_CONFIG LANG
 EOF
 
