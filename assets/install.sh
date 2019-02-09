@@ -101,6 +101,10 @@ EOF
 /^fyi.*/        error:5.1.1 This is not a valid request address, please check the address and send again.
 EOF
 
+  cat > /etc/postfix/restrictedrequests <<EOF
+/^fyi-request-3986-14d3ee82@/   reject This request is closed and a common spam target, please contact FYI administrators if you need to contact this request
+EOF
+
   cat >> /etc/postfix/master.cf <<EOF
 $alaveteli_user unix  - n n - 50 pipe
   flags=R user=$alaveteli_user argv=/opt/$pipescript
@@ -109,7 +113,8 @@ EOF
   cat >> /etc/postfix/main.cf <<EOF
 transport_maps = pcre:/etc/postfix/transports
 local_recipient_maps = proxy:unix:passwd.byname regexp:/etc/postfix/recipients
-smtpd_recipient_restrictions = reject_rbl_client pbl.spamhaus.org
+smtpd_recipient_restrictions = check_recipient_access pcre:/etc/postfix/restrictedrequests,
+  reject_rbl_client pbl.spamhaus.org
 export_environment = AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY S3_BUCKET TZ MAIL_CONFIG LANG
 EOF
 
