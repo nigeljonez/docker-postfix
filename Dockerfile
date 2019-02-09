@@ -1,15 +1,11 @@
-From ubuntu:trusty
-MAINTAINER Elliott Ye
+From ubuntu:bionic
+MAINTAINER FYI Admin Team
 
 # Set noninteractive mode for apt-get
 ENV DEBIAN_FRONTEND noninteractive
 
 # Update
-RUN apt-get update
-
-# Start editing
-# Install package here for cache
-RUN apt-get -y install supervisor postfix postfix-pcre ca-certificates
+RUN apt-get update && apt-get -y install supervisor postfix ca-certificates rsyslog
 
 # Add files
 ADD assets/scripts/* /opt/
