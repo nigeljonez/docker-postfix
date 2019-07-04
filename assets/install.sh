@@ -75,7 +75,7 @@ OUTPUT=$(mktemp -t foi-mailin-output-XXXXXXXX)
 cat >"$INPUT"
 EOF
 
-    echo "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID S3_BUCKET=$S3_BUCKET /opt/s3putter <\"\$INPUT\" >\"\$OUTPUT\" 2>&1"  >> /opt/$pipescript
+    echo "AWS_REGION=$AWS_REGION AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID S3_BUCKET=$S3_BUCKET /opt/s3putter <\"\$INPUT\" >\"\$OUTPUT\" 2>&1"  >> /opt/$pipescript
 
     cat >> /opt/$pipescript <<'EOF'
 ERROR_CODE=$?
